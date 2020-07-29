@@ -5,7 +5,7 @@ COPY jupyter_notebook_config.json /opt/conda/etc/jupyter/jupyter_notebook_config
 LABEL maintainer="Kayla Bieser"
 LABEL maintainer_email="kayla.bieser@nsc.edu"
 LABEL version="1.0"
-LABEL lesson=biol416
+LABEL lesson=Biol416
 #
 #
 #
