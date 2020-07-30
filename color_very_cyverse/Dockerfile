@@ -137,7 +137,7 @@ USER gea_user
 #
 # Link conda executables to /bin and /usr/lib
 RUN sudo ln -sf /opt/conda/pkgs/*/bin/* /bin; exit 0
-RUN sudo ln -sf /opt/conda/pkgs/*/lib/* /usr/lib; exit 0
+RUN sudo ln -s /opt/conda/pkgs/*/lib/* /usr/lib; exit 0
 #
 # Define entry point and startup commands
 #ENTRYPOINT ["jupyter"]
