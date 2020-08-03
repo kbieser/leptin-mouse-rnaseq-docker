@@ -38,6 +38,8 @@ RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add - 
     && rm -rf /usr/lib/apt/lists/*
 #    && fix-permissions $CONDA_DIR
 #
+## Enable prompt color in the skeleton .bashrc before creating the default NB_USER
+RUN sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashrc
 #
 # Install Jupyter lab
 RUN pip install jupyterlab==1.0.9 \
@@ -138,9 +140,6 @@ USER gea_user
 RUN sudo ln -s /opt/conda/pkgs/*/bin/* /bin; exit 0
 RUN sudo ln -s /opt/conda/pkgs/*/lib/* /usr/lib; exit 0
 #
-# and in the default bash.bashrc for the case where the user home directory gets
-# overridden.
-RUN sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashrc
 #
 #
 # Define entry point and startup commands
