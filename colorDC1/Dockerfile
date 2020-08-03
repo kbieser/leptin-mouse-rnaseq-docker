@@ -8,8 +8,10 @@ LABEL version="1.0"
 LABEL lesson=biol416
 #
 #
-#
+# Add systemwide .bashrc configuration additions that are normally found in /home/jovyan/.bashrc
 USER root
+RUN cat /etc/skel/.bashrc >> /etc/bash.bashrc
+USER $NB_UID
 #
 # Un-minimize the image to get back Ubuntu
 # goodies for teaching Linux/bash (e.g. man files, etc)
@@ -113,7 +115,7 @@ RUN ijsinstall --hide-undefined --install=global
 #
 #
 # Configure shell
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh && echo "SHELL=/bin/bash" >> /etc/environment
+# RUN rm /bin/sh && ln -s /bin/bash /bin/sh && echo "SHELL=/bin/bash" >> /etc/environment
 #
 #
 # Add the GEA user
@@ -135,6 +137,11 @@ USER gea_user
 # Link conda executables to /bin and /usr/lib
 RUN sudo ln -s /opt/conda/pkgs/*/bin/* /bin; exit 0
 RUN sudo ln -s /opt/conda/pkgs/*/lib/* /usr/lib; exit 0
+#
+# and in the default bash.bashrc for the case where the user home directory gets
+# overridden.
+RUN sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashrc
+#
 #
 # Define entry point and startup commands
 #ENTRYPOINT ["jupyter"]
