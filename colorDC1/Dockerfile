@@ -10,8 +10,8 @@ LABEL lesson=biol416
 #
 # Add systemwide .bashrc configuration additions that are normally found in /home/jovyan/.bashrc
 USER root
-RUN cat /etc/skel/.bashrc >> /etc/bash.bashrc
-USER $NB_UID
+#RUN cat /etc/skel/.bashrc >> /etc/bash.bashrc
+#USER $NB_UID
 #
 # Un-minimize the image to get back Ubuntu
 # goodies for teaching Linux/bash (e.g. man files, etc)
@@ -115,7 +115,7 @@ RUN ijsinstall --hide-undefined --install=global
 #
 #
 # Configure shell
-# RUN rm /bin/sh && ln -s /bin/bash /bin/sh && echo "SHELL=/bin/bash" >> /etc/environment
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh && echo "SHELL=/bin/bash" >> /etc/environment
 #
 #
 # Add the GEA user
