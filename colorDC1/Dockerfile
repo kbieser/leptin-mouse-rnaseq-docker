@@ -118,6 +118,7 @@ RUN ijsinstall --hide-undefined --install=global
 #
 # Configure shell
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh && echo "SHELL=/bin/bash" >> /etc/environment
+RUN cat /etc/skel/.bashrc >> /etc/bash.bashrc
 #
 #
 # Add the GEA user
