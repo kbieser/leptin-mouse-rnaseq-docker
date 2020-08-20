@@ -115,8 +115,6 @@ RUN ijsinstall --hide-undefined --install=global
 #
 # Configure shell
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh && echo "SHELL=/bin/bash" >> /etc/environment
-# Command that allows colorization of terminal in /home/gea_user, allows recognition of the .bashrc file
-RUN cat /etc/skel/.bashrc >> /etc/bash.bashrc
 #
 #
 # Add the GEA user
@@ -128,11 +126,16 @@ RUN echo "gea_user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 # Switch to GEA user
 COPY ./jupyter_notebook_config.json /opt/conda/etc/jupyter/jupyter_notebook_config.json
 COPY ./jupyter_notebook_config.py /home/gea_user/.jupyter/jupyter_notebook_config.py
-COPY ./.bashrc /home/gea_user/.bashrc
-RUN chown -R gea_user:gea_user /home/gea_user/.jupyter
-RUN chmod -R 777 /home/jovyan
-RUN chown gea_user:gea_user /home/gea_user/.bashrc
+COPY ./_bashrc /home/gea_user/.bashrc
+COPY ./_bash_prompt /home/gea_user/.bash_prompt
+RUN mkdir /home/gea_user/work && \
+    chown -R gea_user:gea_user /home/gea_user
+WORKDIR /home/gea_user/work
 USER gea_user
+#
+#
+# The HOME environment variable is set in the parent image, so we have to override it in the Dockerfile.
+ENV HOME /home/gea_user
 #
 #
 # Link conda executables to /bin and /usr/lib
