@@ -13,4 +13,5 @@ lab \
 --NotebookApp.token='' \
 --NotebookApp.password='' \
 --notebook-dir='/home/gea_user' \
---Session.username='gea_user'
+--Session.username='gea_user' \
+--config='/opt/conda/etc/jupyter/jupyter_notebook_config.py'

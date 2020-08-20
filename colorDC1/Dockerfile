@@ -126,8 +126,8 @@ RUN echo "gea_user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 #
 #
 # Switch to GEA user
-# COPY ./jupyter_notebook_config.json /opt/conda/etc/jupyter/jupyter_notebook_config.json
-# COPY ./jupyter_notebook_config.py /home/gea_user/.jupyter/jupyter_notebook_config.py
+COPY ./jupyter_notebook_config.json /opt/conda/etc/jupyter/jupyter_notebook_config.json
+COPY ./jupyter_notebook_config.py /opt/conda/etc/jupyter/jupyter_notebook_config.py
 WORKDIR /home/gea_user
 USER gea_user
 #
