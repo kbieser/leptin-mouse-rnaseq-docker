@@ -35,9 +35,6 @@ RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add - 
     && rm -rf /usr/lib/apt/lists/*
 #    && fix-permissions $CONDA_DIR
 #
-## Enable prompt color in the skeleton .bashrc before creating the default NB_USER
-RUN sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashrc
-#
 # Install Jupyter lab
 RUN pip install jupyterlab==1.0.9 \
     && conda update -y -n base conda \
@@ -117,6 +114,11 @@ RUN ijsinstall --hide-undefined --install=global
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh && echo "SHELL=/bin/bash" >> /etc/environment
 #
 #
+# Add our shell customization files.
+COPY ./bash.bashrc /etc/bash.bashrc
+COPY ./prompt.bash /etc/bashrc.d/prompt.bash
+#
+#
 # Add the GEA user
 RUN useradd -p $(openssl passwd -1 -salt xyz 'gea_user') -m -d /home/gea_user -s /bin/bash gea_user
 RUN usermod -a -G sudo,root gea_user
@@ -125,13 +127,13 @@ RUN echo "gea_user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 #
 # Switch to GEA user
 COPY ./jupyter_notebook_config.json /opt/conda/etc/jupyter/jupyter_notebook_config.json
-COPY ./jupyter_notebook_config.py /home/gea_user/.jupyter/jupyter_notebook_config.py
-COPY ./_bashrc /home/gea_user/.bashrc
-COPY ./_bash_prompt /home/gea_user/.bash_prompt
-RUN mkdir /home/gea_user/work && \
-    chown -R gea_user:gea_user /home/gea_user
-WORKDIR /home/gea_user/work
+COPY ./jupyter_notebook_config.py /opt/conda/etc/jupyter/jupyter_notebook_config.py
+WORKDIR /home/gea_user
 USER gea_user
+#
+#
+# Remove any user-specific shell customization files.
+RUN rm -f /home/gea_user/.[0-9a-zA-Z]*
 #
 #
 # The HOME environment variable is set in the parent image, so we have to override it in the Dockerfile.
