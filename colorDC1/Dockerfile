@@ -84,8 +84,8 @@ RUN conda install -y -q sra-tools=2.9.6=hf484d3e_0
 #RUN conda install -y -q fastp=0.20.0=hdbcaa40_0
 RUN conda install -y -q bwa=0.7.17=hed695b0_7
 RUN conda install -y -q samtools=1.9=h10a08f8_12
-RUN conda install -y -q bcftools=1.9=h47928c2_1
-#RUN conda install -y -q bcftools=1.8=h4da6232_3 - works
+#RUN conda install -y -q bcftools=1.9=h47928c2_1 - did not work
+RUN conda install -y -q bcftools=1.8=h4da6232_3
 #RUN conda install -y -q bcftools=1.9=h68d8f2e_9 - did not work
 RUN conda install -y -q snpeff=4.3.1t=2
 RUN conda install -y -q seqtk=1.3=hed695b0_2
